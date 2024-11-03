@@ -23,7 +23,7 @@ let poseList = [
   "Warrior",
   "Dog",
   "Shoulderstand",
-  "Triangle",
+  "Traingle",
 ];
 
 let interval;

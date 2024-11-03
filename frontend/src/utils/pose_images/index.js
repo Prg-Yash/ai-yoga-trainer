@@ -13,6 +13,6 @@ export const poseImages = {
   Dog: dog,
   Warrior: warrior,
   Chair: chair,
-  Triangle: triangle,
+  Traingle: triangle,
   Shoulderstand: shoulderstand,
 };

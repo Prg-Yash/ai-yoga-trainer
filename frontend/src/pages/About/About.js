@@ -29,18 +29,18 @@ export default function About() {
             <h4>About Developers</h4>
             <p className="about-content">
               We are Yash Nimse & Aryan Shinde,We are Full Stack Developer, AI
-              Enthusiastic, Content Creator, Tutor, I love to work with
+              Enthusiastic, Content Creator, Tutor, We love to work with
               technology and love to share on my youtube channel, I hope this
               project will help you.
             </p>
             <h4>Contact</h4>
-            <a href="https://www.instagram.com/codedharsh75/">
+            <a href="#">
               <p className="about-content">Instagram</p>
             </a>
-            <a href="https://www.youtube.com/channel/UCiD7kslR7lKSaPGSQ-heOWg">
-              <p className="about-content">Youtube</p>
+            <a href="#">
+              <p className="about-content">LinkedIn</p>
             </a>
-            <a href="https://github.com/harshbhatt7585">
+            <a href="#">
               <p className="about-content">GitHub</p>
             </a>
           </div>

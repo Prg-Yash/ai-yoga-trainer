@@ -13,7 +13,7 @@ const CreateWorkout = () => {
     "Warrior",
     "Dog",
     "Shoulderstand",
-    "Triangle",
+    "Traingle",
   ];
   const [myWorkout, setMyWorkout] = useState([]);
   const [poseDurations, setPoseDurations] = useState({});

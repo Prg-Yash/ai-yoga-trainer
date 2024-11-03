@@ -16,18 +16,19 @@ const Workout = () => {
     Dog: 2,
     Goddess: 3,
     Shoulderstand: 4,
-    Triangle: 5,
+    Traingle: 5,
     Tree: 6,
     Warrior: 7,
   };
 
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-  const audioRef = useRef(null); // Initialize as null
+  const audioRef = useRef(new Audio(count));
   const detectorRef = useRef(null);
   const classifierRef = useRef(null);
   const detectionIntervalRef = useRef(null);
-  const synth = useRef(window.speechSynthesis);
+
+  audioRef.current.loop = true;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,61 +40,14 @@ const Workout = () => {
   const [isDetecting, setIsDetecting] = useState(true);
 
   let skeletonColor = "rgb(255,255,255)";
+  let flag = false;
 
-  // Initialize audio only once when component mounts
-  useEffect(() => {
-    audioRef.current = new Audio(count);
-    audioRef.current.loop = true;
+  const speak = (text) => {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-US";
+    window.speechSynthesis.speak(speech);
+  };
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
-    };
-  }, []);
-
-  // Timer logic - only count down when pose is correct
-  useEffect(() => {
-    let interval;
-    if (isPoseCorrect && poseTimer > 0) {
-      interval = setInterval(() => {
-        setPoseTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
-    }
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [isPoseCorrect, poseTimer]);
-
-  // Handle workout completion
-  useEffect(() => {
-    if (poseTimer === 0) {
-      moveToNextPose();
-    }
-  }, [poseTimer]);
-
-  // Initialize pose detection
-  useEffect(() => {
-    const init = async () => {
-      await tf.ready();
-      await initializePoseDetection();
-    };
-    init();
-
-    return () => {
-      if (detectionIntervalRef.current) {
-        clearInterval(detectionIntervalRef.current);
-      }
-      // Clear canvas on unmount
-      if (canvasRef.current) {
-        const ctx = canvasRef.current.getContext("2d");
-        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-      }
-    };
-  }, []);
   function landmarks_to_embedding(landmarks) {
     landmarks = normalize_pose_landmarks(tf.expandDims(landmarks, 0));
     let embedding = tf.reshape(landmarks, [1, 34]);
@@ -145,42 +99,50 @@ const Workout = () => {
     return tf.maximum(tf.mul(torso_size, torso_size_multiplier), max_dist);
   }
 
-  const announcePose = (pose, duration) => {
-    synth.current.cancel();
-    const message = `Perform ${pose} pose for ${duration} seconds`;
-    const utterance = new SpeechSynthesisUtterance(message);
-    synth.current.speak(utterance);
-  };
-
-  const announceCompletion = () => {
-    synth.current.cancel();
-    const message =
-      "Congratulations! You have successfully completed all the workouts!";
-    const utterance = new SpeechSynthesisUtterance(message);
-    synth.current.speak(utterance);
-  };
-
   useEffect(() => {
     if (!myWorkout.length) {
       navigate("/create-workout");
-    } else {
-      announcePose(myWorkout[0], poseDurations[myWorkout[0]] || 10);
     }
   }, [myWorkout, navigate]);
 
-  const initializePoseDetection = async () => {
-    try {
-      const detectorConfig = {
-        modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
-      };
-      detectorRef.current = await poseDetection.createDetector(
-        poseDetection.SupportedModels.MoveNet,
-        detectorConfig
-      );
-      classifierRef.current = await tf.loadLayersModel(
-        "https://models.s3.jp-tok.cloud-object-storage.appdomain.cloud/model.json"
-      );
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isPoseCorrect && poseTimer > 0) {
+        setPoseTimer((prevTimer) => prevTimer - 1);
+      }
+      if (poseTimer === 0) {
+        moveToNextPose();
+      }
+    }, 1000);
 
+    return () => clearInterval(interval);
+  }, [isPoseCorrect, poseTimer]);
+
+  // Initialize pose detection
+  useEffect(() => {
+    initializePoseDetection();
+    return () => {
+      if (detectionIntervalRef.current) {
+        clearInterval(detectionIntervalRef.current);
+      }
+      setIsDetecting(false);
+    };
+  }, []);
+
+  // Handle pose changes
+  useEffect(() => {
+    if (detectorRef.current && classifierRef.current) {
+      // Clear existing detection interval
+      if (detectionIntervalRef.current) {
+        clearInterval(detectionIntervalRef.current);
+      }
+
+      // Reset states
+      setIsPoseCorrect(false);
+      flag = false;
+      skeletonColor = "rgb(255,255,255)";
+
+      // Start new detection interval for current pose
       detectionIntervalRef.current = setInterval(() => {
         if (isDetecting) {
           detectPose(
@@ -190,145 +152,134 @@ const Workout = () => {
           );
         }
       }, 100);
-    } catch (error) {
-      console.error("Error initializing pose detection:", error);
     }
-  };
-  const moveToNextPose = () => {
-    // Temporarily pause detection while transitioning
-    setIsDetecting(false);
-    setIsPoseCorrect(false);
+  }, [currentPoseIndex, isDetecting]);
 
-    // Clear existing interval
+  const initializePoseDetection = async () => {
+    const detectorConfig = {
+      modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
+    };
+    detectorRef.current = await poseDetection.createDetector(
+      poseDetection.SupportedModels.MoveNet,
+      detectorConfig
+    );
+    classifierRef.current = await tf.loadLayersModel(
+      "https://models.s3.jp-tok.cloud-object-storage.appdomain.cloud/model.json"
+    );
+
+    audioRef.current = new Audio(count);
+    audioRef.current.loop = true;
+
+    // Start initial detection
+    detectionIntervalRef.current = setInterval(() => {
+      if (isDetecting) {
+        detectPose(
+          detectorRef.current,
+          classifierRef.current,
+          audioRef.current
+        );
+      }
+    }, 100);
+  };
+
+  const moveToNextPose = () => {
+    setIsDetecting(false);
+
     if (detectionIntervalRef.current) {
       clearInterval(detectionIntervalRef.current);
     }
 
-    // Pause and reset audio
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
 
-    // Clear canvas
-    if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext("2d");
-      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    }
-
+    flag = false;
     skeletonColor = "rgb(255,255,255)";
+    setIsPoseCorrect(false);
 
     if (currentPoseIndex < myWorkout.length - 1) {
-      const nextIndex = currentPoseIndex + 1;
-      const nextPose = myWorkout[nextIndex];
-      const nextDuration = poseDurations[nextPose] || 10;
+      setCurrentPoseIndex((prevIndex) => prevIndex + 1);
+      const nextPoseDuration =
+        poseDurations[myWorkout[currentPoseIndex + 1]] || 10;
+      setPoseTimer(nextPoseDuration);
 
-      // Set the new pose and reset the timer
-      setCurrentPoseIndex(nextIndex);
-      setPoseTimer(nextDuration);
+      // Speak the next pose and its duration
+      speak(
+        `Perform ${
+          myWorkout[currentPoseIndex + 1]
+        } pose for ${nextPoseDuration} seconds`
+      );
 
-      // Announce next pose and resume detection after a short delay
       setTimeout(() => {
-        announcePose(nextPose, nextDuration);
         setIsDetecting(true);
       }, 500);
     } else {
-      announceCompletion();
+      // Announce workout completion
+      speak("You have successfully completed all the workouts!");
       alert("Workout complete!");
-      navigate("/summary");
+      navigate("/");
     }
   };
 
   const detectPose = async (detector, poseClassifier, countAudio) => {
     if (
-      !webcamRef.current?.video?.readyState === 4 ||
-      !canvasRef.current ||
-      !isDetecting
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null &&
+      webcamRef.current.video.readyState === 4
     ) {
-      return;
-    }
-
-    try {
+      let notDetected = 0;
       const video = webcamRef.current.video;
       const pose = await detector.estimatePoses(video);
-
       const ctx = canvasRef.current.getContext("2d");
       ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
-      if (!pose[0]) {
-        // No pose detected
-        setIsPoseCorrect(false);
-        if (countAudio) {
-          countAudio.pause();
-          countAudio.currentTime = 0;
-        }
-        return;
-      }
-
-      const keypoints = pose[0].keypoints;
-      let notDetected = 0;
-      let input = keypoints.map((keypoint) => {
-        if (keypoint.score > 0.4) {
-          if (
-            !(keypoint.name === "left_eye" || keypoint.name === "right_eye")
-          ) {
-            drawPoint(ctx, keypoint.x, keypoint.y, 8, "rgb(255,255,255)");
-            let connections = keypointConnections[keypoint.name];
-            connections?.forEach((connection) => {
-              let conName = connection.toUpperCase();
-              drawSegment(
-                ctx,
-                [keypoint.x, keypoint.y],
-                [keypoints[POINTS[conName]].x, keypoints[POINTS[conName]].y],
-                skeletonColor
-              );
-            });
+      try {
+        const keypoints = pose[0].keypoints;
+        let input = keypoints.map((keypoint) => {
+          if (keypoint.score > 0.4) {
+            if (
+              !(keypoint.name === "left_eye" || keypoint.name === "right_eye")
+            ) {
+              drawPoint(ctx, keypoint.x, keypoint.y, 8, "rgb(255,255,255)");
+              let connections = keypointConnections[keypoint.name];
+              connections?.forEach((connection) => {
+                let conName = connection.toUpperCase();
+                drawSegment(
+                  ctx,
+                  [keypoint.x, keypoint.y],
+                  [keypoints[POINTS[conName]].x, keypoints[POINTS[conName]].y],
+                  skeletonColor
+                );
+              });
+            }
+          } else {
+            notDetected += 1;
           }
-        } else {
-          notDetected += 1;
-        }
-        return [keypoint.x, keypoint.y];
-      });
+          return [keypoint.x, keypoint.y];
+        });
 
-      if (notDetected > 4) {
-        skeletonColor = "rgb(255,255,255)";
-        setIsPoseCorrect(false);
-        if (countAudio) {
-          countAudio.pause();
-          countAudio.currentTime = 0;
+        if (notDetected > 4) {
+          skeletonColor = "rgb(255,255,255)";
+          return;
         }
-        return;
-      }
 
-      const processedInput = landmarks_to_embedding(input);
-      const classification = await poseClassifier
-        .predict(processedInput)
-        .array();
-
-      const classNo = CLASS_NO[myWorkout[currentPoseIndex]];
-      const isCorrect = classification[0][classNo] > 0.97;
-
-      if (isCorrect) {
-        skeletonColor = "rgb(0,255,0)";
-        setIsPoseCorrect(true);
-        if (countAudio && countAudio.paused) {
-          countAudio.currentTime = 0;
-          countAudio.play();
-        }
-      } else {
-        skeletonColor = "rgb(255,255,255)";
-        setIsPoseCorrect(false);
-        if (countAudio) {
-          countAudio.pause();
-          countAudio.currentTime = 0;
-        }
-      }
-    } catch (error) {
-      console.error("Pose detection error:", error);
-      setIsPoseCorrect(false);
-      if (countAudio) {
-        countAudio.pause();
-        countAudio.currentTime = 0;
+        const processedInput = landmarks_to_embedding(input);
+        const classification = poseClassifier.predict(processedInput);
+        classification.array().then((data) => {
+          const classNo = CLASS_NO[myWorkout[currentPoseIndex]];
+          if (data[0][classNo] > 0.97) {
+            if (!flag) {
+              flag = true;
+              countAudio.play();
+            }
+            skeletonColor = "rgb(0,255,0)";
+            setIsPoseCorrect(true);
+          } else {
+            skeletonColor = "rgb(255,255,255)";
+            setIsPoseCorrect(false);
+          }
+        });
+      } catch (err) {
+        console.error("Pose detection error:", err);
       }
     }
   };
