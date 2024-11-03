@@ -1,5 +1,8 @@
 #pose-dropdown-btn:hover {
     border-color: white;
+    background-color: none;
+    color: black;
+    
 }
 /* #pose-dropdown-btn:active {
     background-color: white;
@@ -44,6 +47,15 @@
     justify-content: center;
     align-items: center;
 }
+.dropdown-item-container:hover {
+    background-color: aliceblue;
+    cursor: pointer;
+}
+
+
+
+  
+
 
 .dropdown-item-1 {
     margin: 10px;

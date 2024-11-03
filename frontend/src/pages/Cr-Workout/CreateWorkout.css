@@ -1,0 +1,118 @@
+.create-workout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    padding-top: 95px;
+}
+
+.my-workout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 80%;
+}
+
+.pose-list-container,
+.my-workout-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.pose-list,
+.my-workout {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pose-item,
+.workout-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    color: black;
+}
+
+.pose-item:hover,
+.workout-item:hover {
+    background-color: #f1f1f1;
+}
+
+img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+span {
+    flex-grow: 1;
+    font-size: 1rem;
+}
+
+.duration-input {
+    width: 60px;
+    padding: 5px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.create-workout-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  
+}   
+.start-button {
+    background: #fb923c;
+        color: var(--text-light);
+        border: 2px solid var(--accent-blue);
+        padding: 1rem 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 20px;
+}
+
+.start-button:hover {
+background: #fb923c;
+opacity: 0.8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(74, 144, 226, 0.4);}
+.pose-list-title{
+    font-size: 1.5rem;
+    color: black;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

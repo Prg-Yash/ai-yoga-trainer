@@ -5,6 +5,10 @@
     padding: 10px;
     margin-top: 10px;
 }
+.instructions-list:hover {
+    border: 5px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
 .instruction {
     margin: 10px;
     letter-spacing: 0.5px;
@@ -16,11 +20,19 @@
 .instructions-container {
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
     align-content: center;
+    gap:40px;
+    width: 100%;
+    
+    
+
 }
 
 .pose-demo-img {
     height: 400px;
     aspect-ratio: 1;
     border-radius: 15px;
+    width: 400px;
+    margin-top: 50px;
 }
