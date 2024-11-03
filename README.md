@@ -1,4 +1,5 @@
 To run this:
-cd frontend
+cd frontend 
+Command:
  $env:NODE_OPTIONS = "--openssl-legacy-provider"
  npm start
