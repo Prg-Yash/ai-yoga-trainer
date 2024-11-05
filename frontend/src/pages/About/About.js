@@ -2,6 +2,7 @@ import React from "react";
 
 import "./About.css";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 export default function About() {
   return (
@@ -46,6 +47,7 @@ export default function About() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

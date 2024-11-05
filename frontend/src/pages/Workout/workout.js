@@ -38,6 +38,7 @@ const Workout = () => {
   const [poseTimer, setPoseTimer] = useState(poseDurations[myWorkout[0]] || 10);
   const [isPoseCorrect, setIsPoseCorrect] = useState(false);
   const [isDetecting, setIsDetecting] = useState(true);
+  const [workoutSummary, setWorkoutSummary] = useState([]);
 
   let skeletonColor = "rgb(255,255,255)";
   let flag = false;
@@ -46,6 +47,26 @@ const Workout = () => {
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = "en-US";
     window.speechSynthesis.speak(speech);
+  };
+  // Function to calculate calories burned per pose
+  const calculateCalories = (pose, duration) => {
+    // MET values for each pose (average values, adjust as needed)
+    const MET_VALUES = {
+      Chair: 3.0,
+      Cobra: 2.5,
+      Dog: 3.5,
+      Shoulderstand: 2.0,
+      Traingle: 2.8,
+      Tree: 2.3,
+      Warrior: 3.8,
+    };
+
+    // Get the MET for the current pose
+    const MET = MET_VALUES[pose] || 2.5; // Default to 2.5 if pose not found
+
+    // Calculate calories burned
+    const caloriesBurned = MET * (duration / 60);
+    return caloriesBurned.toFixed(2); // Return the result rounded to two decimal places
   };
 
   function landmarks_to_embedding(landmarks) {
@@ -108,6 +129,7 @@ const Workout = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (isPoseCorrect && poseTimer > 0) {
+        audioRef.current.play();
         setPoseTimer((prevTimer) => prevTimer - 1);
       }
       if (poseTimer === 0) {
@@ -196,13 +218,25 @@ const Workout = () => {
     skeletonColor = "rgb(255,255,255)";
     setIsPoseCorrect(false);
 
+    // Save current pose data to summary
+    const duration = poseDurations[myWorkout[currentPoseIndex]] || 10;
+    const accuracy = isPoseCorrect ? 100 : 75; // Assume basic accuracy rating
+    const currentPoseData = {
+      pose: myWorkout[currentPoseIndex],
+      duration,
+      accuracy,
+      calories: calculateCalories(myWorkout[currentPoseIndex], duration),
+    };
+
+    setWorkoutSummary((prevSummary) => [...prevSummary, currentPoseData]);
+
     if (currentPoseIndex < myWorkout.length - 1) {
+      // Move to the next pose if there are more poses left
       setCurrentPoseIndex((prevIndex) => prevIndex + 1);
       const nextPoseDuration =
         poseDurations[myWorkout[currentPoseIndex + 1]] || 10;
       setPoseTimer(nextPoseDuration);
 
-      // Speak the next pose and its duration
       speak(
         `Perform ${
           myWorkout[currentPoseIndex + 1]
@@ -213,10 +247,13 @@ const Workout = () => {
         setIsDetecting(true);
       }, 500);
     } else {
-      // Announce workout completion
-      speak("You have successfully completed all the workouts!");
-      alert("Workout complete!");
-      navigate("/");
+      // Delay navigation to ensure the last pose data is added to summary
+      setTimeout(() => {
+        speak("You have successfully completed all the workouts!");
+        navigate("/summary", {
+          state: { workoutSummary: [...workoutSummary, currentPoseData] },
+        });
+      }, 500);
     }
   };
 
@@ -279,6 +316,9 @@ const Workout = () => {
           }
         });
       } catch (err) {
+        audioRef.current.pause();
+        setIsPoseCorrect(false);
+
         console.error("Pose detection error:", err);
       }
     }

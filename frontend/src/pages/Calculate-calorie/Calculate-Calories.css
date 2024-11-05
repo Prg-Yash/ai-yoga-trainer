@@ -1,0 +1,134 @@
+.calorie-calculator {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    
+}
+.calorie-container{
+    padding-top:8rem;
+    padding-bottom:4rem;
+}
+
+.calorie-title {
+    text-align: center;
+    color: #001e3d;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #495057;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.calorie-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #fb923c;;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.calorie-button:hover {
+    background-color: #fb923c;;
+}
+
+button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #dc3545;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.nutrition-result {
+    margin-top: 2rem;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nutrition-result h2 {
+    color: #343a40;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.nutrition-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+.nutrition-label {
+    font-weight: bold;
+    color: #495057;
+}
+
+.nutrition-value {
+    color: #28a745;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .calorie-calculator {
+        padding: 1rem;
+    
+    }
+
+    .calorie-title {
+        font-size: 2rem;
+    }
+
+    .nutrition-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -14,6 +14,7 @@ import { poseImages } from "../../utils/pose_images";
 import { POINTS, keypointConnections } from "../../utils/data";
 import { drawPoint, drawSegment } from "../../utils/helper";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 let skeletonColor = "rgb(255,255,255)";
 let poseList = [
@@ -305,6 +306,7 @@ function Yoga() {
           </button>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

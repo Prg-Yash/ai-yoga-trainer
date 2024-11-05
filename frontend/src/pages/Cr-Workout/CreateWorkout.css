@@ -1,118 +1,243 @@
-.create-workout-container {
+.workout-creator-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 7rem 0;
+
+}
+
+.workout-creator-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+}
+
+.workout-creator-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    color: black
+}
+.workout-history-empty-message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+.workout-creator-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.available-poses-section{
+    background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+
+}
+.workout-creator-card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.available-poses-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1rem;
+}
+
+.available-pose-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    padding-top: 95px;
+    cursor: pointer;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
-.my-workout-header {
+.available-pose-item:hover {
+    background-color: #f0f0f0;
+}
+
+.available-pose-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+
+.my-workout-empty-message {
+    text-align: center;
+    color: #666;
+    margin: 2rem 0;
+}
+
+.my-workout-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.my-workout-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 80%;
-}
-
-.pose-list-container,
-.my-workout-container {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
+    border-radius: 4px;
 }
 
-h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.pose-list,
-.my-workout {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.pose-item,
-.workout-item {
+.my-workout-item-content {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-    color: black;
+    gap: 1rem;
 }
 
-.pose-item:hover,
-.workout-item:hover {
-    background-color: #f1f1f1;
-}
-
-img {
-    width: 40px;
-    height: 40px;
+.my-workout-item-content img {
+    width: 50px;
+    height: 50px;
     object-fit: cover;
 }
 
-span {
-    flex-grow: 1;
-    font-size: 1rem;
+.my-workout-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.duration-input {
+.my-workout-duration-input {
     width: 60px;
-    padding: 5px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-.create-workout-heading {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  
-}   
-.start-button {
-    background: #fb923c;
-        color: var(--text-light);
-        border: 2px solid var(--accent-blue);
-        padding: 1rem 1rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: 20px;
+    padding: 0.25rem;
 }
 
-.start-button:hover {
-background: #fb923c;
-opacity: 0.8;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(74, 144, 226, 0.4);}
-.pose-list-title{
-    font-size: 1.5rem;
-    color: black;
+.my-workout-remove-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff4d4d;
+}
+
+.workout-creator-start-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #fb923c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.workout-creator-start-button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+.workout-creator-section-heading {
+    font-size: 1.75rem;
     font-weight: bold;
+    margin: 2rem 0 1rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.5rem;
+    color: white;
+
+}
+
+.workout-history-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.workout-history-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(255, 253, 253, 0.1);
+    padding: 1rem;
+}
+
+.workout-history-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color:rgb(0, 14, 47);
+    
+}
+
+.workout-history-pose-list {
+    list-style-type: none;
+    padding: 0;
+    color:black;
+}
+
+.workout-history-pose-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.workout-history-pose-item img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.workout-history-pose-duration {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.workout-history-card-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.workout-history-load-button,
+.workout-history-delete-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.workout-history-load-button {
+    background-color: #00294a;
+    color: white;
+}
+
+.workout-history-delete-button {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .workout-creator-content {
+        grid-template-columns: 1fr;
+    }
+
+    .workout-history-grid {
+        grid-template-columns: 1fr;
+    }
 }

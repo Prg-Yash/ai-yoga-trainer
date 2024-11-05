@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 
 import "./Home.css";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import {
+  Book,
+  Calculator,
+  Dumbbell,
+  Play,
+  Search,
+  TrainTrack,
+} from "lucide-react";
 
 export default function Home() {
   return (
@@ -38,11 +47,17 @@ export default function Home() {
         </section>
 
         <section className="features">
-          <h2 className="features-title">Explore YogGuru</h2>
+          <h2 className="features-title">
+            <Search style={{ width: "40px", height: "40px" }} />
+            Explore YogGuru
+          </h2>
           <div className="features-grid">
             <div className="feature-card">
               <i data-lucide="play-circle" className="feature-icon"></i>
-              <h3 className="feature-title">Start Your Journey</h3>
+              <h3 className="feature-title">
+                <Play />
+                Start Your Journey
+              </h3>
               <p className="feature-description">
                 Begin your personalized yoga experience with AI-guided sessions.
               </p>
@@ -51,8 +66,11 @@ export default function Home() {
               </Link>
             </div>
             <div className="feature-card">
-              <i data-lucide="book" className="feature-icon"></i>
-              <h3 className="feature-title">Explore Tutorials</h3>
+              <h3 className="feature-title">
+                {" "}
+                <Book />
+                Explore Tutorials
+              </h3>
               <p className="feature-description">
                 Access a wide range of yoga tutorials for all skill levels.
               </p>
@@ -61,8 +79,10 @@ export default function Home() {
               </Link>
             </div>
             <div className="feature-card">
-              <i data-lucide="dumbbell" className="feature-icon"></i>
-              <h3 className="feature-title">Custom Workouts</h3>
+              <h3 className="feature-title">
+                <Dumbbell />
+                Custom Workouts
+              </h3>
               <p className="feature-description">
                 Design your own yoga routines tailored to your goals and
                 preferences.
@@ -71,17 +91,37 @@ export default function Home() {
                 Create Workout →
               </Link>
             </div>
+            <div className="feature-card">
+              <h3 className="feature-title">
+                <Calculator />
+                Calorie Calculator
+              </h3>
+              <p className="feature-description">
+                Calculate the nutritional information of your food items.
+              </p>
+              <Link to="calculate-calorie" className="feature-link">
+                View Calculator →
+              </Link>
+            </div>
+            <div className="feature-card">
+              <i data-lucide="dumbbell" className="feature-icon"></i>
+              <h3 className="feature-title">
+                <TrainTrack />
+                Daily Calorie Tracker
+              </h3>
+              <p className="feature-description">
+                Track your daily calorie intake and get personalized
+                recommendations.
+              </p>
+              <Link to="calorie-tracker" className="feature-link">
+                View Tracker →
+              </Link>
+            </div>
           </div>
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="container footer-content">
-          <div className="logo">
-            <span className="logo-text">YogGuru</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

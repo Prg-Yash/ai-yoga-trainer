@@ -145,6 +145,11 @@
     font-weight: 700;
     text-align: center;
     margin-bottom: 32px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
 }
 
 .features-grid {
@@ -171,6 +176,11 @@
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 8px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
 }
 
 .feature-description {

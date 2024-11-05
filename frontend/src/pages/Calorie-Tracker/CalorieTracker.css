@@ -1,0 +1,311 @@
+.calorie-tracker {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding:7rem 2rem;
+    color: #333;
+
+}
+.calorie-tracker-empty{
+        max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2rem;
+            color: #333;
+            background-color: white;
+            border-radius: 10px;
+            
+}
+.calorie-tracker-container{
+    padding:6rem 0;
+}
+/* Card Styles */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #4a5568;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+/* Button Styles */
+.button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button.primary {
+    background-color: #4299e1;
+    color: white;
+}
+
+.button.primary:hover {
+    background-color: #3182ce;
+    transform: translateY(-2px);
+}
+
+.button.primary:active {
+    transform: translateY(0);
+}
+
+/* Progress Grid */
+.progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.progress-card {
+    text-align: center;
+    background: linear-gradient(135deg, #ffbd5a 0%, #ff9500 100%);
+    color: white;
+}
+
+.calorie-display {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Food Entry Grid */
+.food-entry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* History Section */
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.history-card {
+    padding: 1.5rem;
+    background-color: #f8fafc;
+    border-left: 5px solid #4299e1;
+}
+
+.history-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-details h3 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.25rem;
+}
+
+.text-muted {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.history-calories {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4299e1;
+}
+
+/* Alert Styles */
+.alert {
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.alert h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+}
+
+.alert p {
+    margin: 0;
+}
+
+.alert-warning {
+    background-color: #fefcbf;
+    border: 1px solid #faf089;
+    color: #744210;
+}
+
+.alert-danger {
+    background-color: #fed7d7;
+    border: 1px solid #feb2b2;
+    color: #9b2c2c;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(247, 250, 252, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #e2e8f0;
+    border-top: 5px solid #4299e1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Heading Styles */
+h2 {
+    margin: 0 0 1.5rem 0;
+    color: #2d3748;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.25rem;
+    color: #2d3748;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .calorie-tracker {
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .food-entry-grid,
+    .history-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .button {
+        width: 100%;
+    }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+
+    .button,
+    .card,
+    input,
+    select {
+        transition: none;
+    }
+
+    .loading-spinner {
+        animation: none;
+    }
+}
+
+/* Focus Styles for Keyboard Navigation */
+.button:focus,
+input:focus,
+select:focus {
+    outline: 3px solid #4299e1;
+    outline-offset: 2px;
+}
+
+/* Disabled state for buttons and inputs */
+button:disabled,
+input:disabled,
+select:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #e2e8f0;
+}
+
+/* Additional Enhancements */
+.setup-card {
+    background: linear-gradient(135deg, #ffbd5a 0%, #ff9500 100%);    color: black;
+}
+
+.setup-card h2,
+.setup-card label {
+    color: white;
+}
+
+.setup-card input,
+.setup-card select {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: rgb(0, 5, 62);
+}
+
+.setup-card input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.setup-card .button.primary {
+    background-color: white;
+    color: #4a5568;
+}
+
+.setup-card .button.primary:hover {
+    background-color: #f7fafc;
+}

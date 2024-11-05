@@ -1,28 +1,43 @@
 import React, { useState } from "react";
-
 import { poseInstructions } from "../../utils/data";
-
 import { poseImages } from "../../utils/pose_images";
-import { AudioLines } from "lucide-react";
+import { AudioLines, PauseCircle } from "lucide-react"; // Assuming PauseCircle is the pause icon
 import "./Instructions.css";
 
 export default function Instructions({ currentPose }) {
-  const [instructions, setInstructions] = useState(poseInstructions);
+  const [instructions] = useState(poseInstructions);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const playInstructions = () => {
-    //tts
     const speech = new SpeechSynthesisUtterance();
     speech.lang = "en-US";
     speech.text = instructions[currentPose].join(" ");
 
-    window.speechSynthesis.speak(speech);
+    // Handle the end of the speech to reset the icon
+    speech.onend = () => {
+      setIsPlaying(false);
+    };
+
+    if (isPlaying) {
+      // Pause audio and reset state
+      window.speechSynthesis.cancel();
+      setIsPlaying(false);
+    } else {
+      // Play audio and set state
+      window.speechSynthesis.speak(speech);
+      setIsPlaying(true);
+    }
   };
+
   return (
     <div className="instructions-main-container">
       <div className="instructions-container">
         <ul className="instructions-list">
-          {instructions[currentPose].map((instruction) => {
-            return <li className="instruction">{instruction}</li>;
-          })}
+          {instructions[currentPose].map((instruction, index) => (
+            <li key={index} className="instruction">
+              {instruction}
+            </li>
+          ))}
         </ul>
 
         <img
@@ -42,9 +57,9 @@ export default function Instructions({ currentPose }) {
           padding: "5px",
           cursor: "pointer",
         }}
-        onClick={() => playInstructions()}
+        onClick={playInstructions}
       >
-        <AudioLines />
+        {isPlaying ? <PauseCircle /> : <AudioLines />}
       </div>
     </div>
   );

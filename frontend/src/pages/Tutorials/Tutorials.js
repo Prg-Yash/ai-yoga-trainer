@@ -4,6 +4,7 @@ import "./Tutorials.css";
 
 import { tutorials, fixCamera, customWorkouts } from "../../utils/data";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 export default function Tutorials() {
   return (
@@ -35,6 +36,7 @@ export default function Tutorials() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
